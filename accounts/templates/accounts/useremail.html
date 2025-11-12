@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="2; url={% url 'accounts:login_con' %}">
+{% load static %}
+
+    <title>TRANSACTION</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <style type="text/css">
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #eef5fe;
+}
+.wrapper {
+  display: flex;
+  column-gap: 10px;
+}
+.wrapper .dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #008ae6;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: animate 1s ease-in-out infinite alternate;
+}
+.dot:nth-child(1) {
+  animation-delay: -0.25s;
+}
+.dot:nth-child(2) {
+  background: #e60000;
+  animation-delay: -0.5s;
+}
+.dot:nth-child(3) {
+  background: #ffcc00;
+  animation-delay: -0.75s;
+}
+.dot:nth-child(4) {
+  background: #008800;
+  animation-delay: -1s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+    </style>
+    <div class="wrapper">
+
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+            
+<input type="hidden" id="is-registered" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<input type="hidden" id="user-email" value="{{ user.email }}">
+<input type="hidden" id="full-name" value="{{ user.get_full_name }}">
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+  const email = "{{ user.email }}";
+  const subject = "Welcome to Cargo Logistic Services - Your Gateway to Seamless Shipping";
+
+  const headerImage = "https://res.cloudinary.com/dwpqoubdw/image/upload/v1695675698/gkxrk9nycu6slz4dyfo9.png"; // URL of your header image
+
+  const body = `
+    <div style="background-color: #f5f5f5;">
+      <div style="max-width: 600px; margin: 0 auto; padding: 40px;">
+        <div style="text-align: center;">
+          <img src="${headerImage}" alt="Header Image" style="display: block; width: 200px; height: auto; margin: 0 auto 20px; border-radius: 50%;">
+          <h1 style="color: #333; font-size: 32px; font-weight: 600; margin-bottom: 20px;">Welcome to Cargo Logistic Services</h1>
+        </div>
+        <p style="color: #555; font-size: 18px; line-height: 1.5; margin-bottom: 20px;">Dear {{ user.username }},</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Welcome aboard! You've just unlocked a world of seamless shipping solutions with Cargo Logistic Services. We're not just logistics; we're your trusted partner in success.</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Our dedicated team is here to simplify your shipping needs, ensuring timely deliveries, cost efficiency, and peace of mind.</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Feel free to explore our services, and should you have any questions or need assistance, our friendly support team is just an email away at support@cargologistic.online.</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Get ready to experience logistics like never before. We're thrilled to embark on this journey with you.</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Best regards,</p>
+        <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 0;">The Cargo Logistic Services Team</p>
+      </div>
+    </div>
+  `;
+
+  Email.send({
+    SecureToken: "75856964-401b-4cc4-852f-6f1b82f1636a",
+    To: email,
+    From: "info@cargologistic.online",
+    Subject: subject,
+    Body: body
+  });
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="CargoLogistics Pro">
+    <meta name="keywords" content="Consigment, Logistics">
+    <meta name="author" content="CargoLogistics Pro">
+    <meta name="robots" content="noindex, nofollow">
+    <title>CargoLogistics Pro</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/logo1.png' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/plugins/fontawesome/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetor/plugins/fontawesome/css/all.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/css/style.css' %}">
+</head>
+
+<body class="account-page">
+<form method="post" enctype="multipart/form-data" >
+    <div class="main-wrapper">
+        <div class="account-content">
+            <div class="login-wrapper">
+              
+                {% csrf_token %}
+                <div class="login-content">
+                    <div class="login-userset">
+                        <div class="login-logo logo-normal">
+                            <img src="{% static 'assets/img/logo1.png' %}" alt="img">
+                        </div>
+                        <a href="{% url 'home' %}" class="login-logo logo-white">
+                        <img src="{% static 'assets/img/logo1.png' %}" alt>
+                        </a>
+                        <div class="login-userheading">
+                            <h3>Create an Account</h3>
+                            <h4>Continue where you left off</h4>
+                        </div>
+                        <div class="form-login">
+                            <label>USERNAME</label>
+                            <div class="form-addons">
+                                {{ user_form.username }}
+                                <img src="{% static 'assetor/img/icons/users1.svg' %}" alt="img">
+                            </div>
+                        </div>
+                        {% if user_form.errors %}
+                        <div class="error"><p>{{ user_form.errors }}</p></div>
+                        {% endif %}
+  
+                        <div class="form-login">
+                            <label>Email</label>
+                            <div class="form-addons">
+                                {{ user_form.email }}
+                                <img src="{% static 'assetor/img/icons/mail.svg' %}" alt="img">
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <label>Password</label>
+                            <div class="pass-group">
+                                {{ user_form.password1 }}
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <label>Confirm Password</label>
+                            <div class="pass-group">
+                                {{ user_form.password2 }}
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label class="form-label" for="id_picture"><i class="fas fa-camera"></i> Profile Picture</label>
+                          <img src="{% static 'assets/passport/sample.png' %}" style="width:100%; height:180px;" id="output_image">
+                          {{ account_form.picture }}
+                          {% if account_form.picture.errors %}
+                          <div class="error">{{ account_form.picture.errors }}</div>
+                          {% endif %}
+                        </div>
+
+
+
+ 
+                          {% if address_form.errors %}
+                          <div class="error"><p>{{ address_form.errors }}</p></div>
+                          {% endif %}
+                        <div class="form-login">
+                            <button type="submit" class="btn btn-login" ><i class="fas fa-check"></i> Submit</button>
+                        </div>
+                        <div class="signinform text-center">
+                            <h4>Already a user? <a href="{% url 'accounts:login' %}" class="hover-a">Sign In</a></h4>
+                        </div>
+                        <div class="form-setlogin">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="login-img">
+                    <img src="{% static 'assetor/img/login.jpg' %}" alt="img">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+  </form>
+
+    <script src="{% static 'assetor/js/jquery-3.6.0.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/feather.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/script.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="CargoLogistics Pro">
+    <meta name="keywords" content="Consigment, Logistics">
+    <meta name="author" content="CargoLogistics Pro">
+    <meta name="robots" content="noindex, nofollow">
+    <title>CargoLogistics Pro</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/logo1.png' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/plugins/fontawesome/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetor/plugins/fontawesome/css/all.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assetor/css/style.css' %}">
+</head>
+
+<body class="account-page">
+<form action="{% url 'accounts:login' %}" method="POST">
+  {% csrf_token %}
+    <div class="main-wrapper">
+        <div class="account-content">
+            <div class="login-wrapper">
+                <div class="login-content">
+                    <div class="login-userset">
+                        <div class="login-logo logo-normal">
+                            <img src="{% static 'assets/img/logo1.png' %}" alt="img">
+                        </div>
+                        <a href="{% url 'home' %}" class="login-logo logo-white">
+                            <img src="{% static 'assets/img/logo1.png' %}" alt>
+                            </a>
+                        <div class="login-userheading">
+                            <h3>Sign In</h3>
+                            <h4>Please login to your account</h4>
+                        </div>
+                        <div class="form-login">
+                            <label>Username</label>
+                            <div class="form-addons">
+                                    {{ form.username }}
+                                    {% if form.errors.username %}
+                                      <div class="text-danger">{{ form.errors.username }}</div>
+                                    {% endif %} 
+                                   <img src="{% static 'assetor/img/icons/mail.svg' %}" alt="img">
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <label>Password</label>
+                            <div class="pass-group">
+                                {{ form.password }}
+                                {% if form.errors.password %}
+                                  <div class="text-danger">{{ form.errors.password }}</div>
+                                {% endif %}
+                                    <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <div class="alreadyuser">
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <button type="submit" class="btn btn-login" ><i class="fas fa-check"></i> Submit</button>
+                        </div>
+                        <div class="signinform text-center">
+                            <h4>Don’t have an account? <a href="{% url 'accounts:register' %}" class="hover-a">Sign Up</a></h4>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="login-img">
+                    <img src="{% static 'assetor/img/login.jpg' %}" alt="img">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <script src="{% static 'assetor/js/jquery-3.6.0.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/feather.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'assetor/js/script.js' %}"></script>
+</body>
+
+</html>

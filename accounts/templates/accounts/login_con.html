@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="4; url={% url 'home' %}">
+
+    <title>TRANSACTION</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <style type="text/css">
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #eef5fe;
+}
+.wrapper {
+  display: flex;
+  column-gap: 10px;
+}
+.wrapper .dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #008ae6;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: animate 1s ease-in-out infinite alternate;
+}
+.dot:nth-child(1) {
+  animation-delay: -0.25s;
+}
+.dot:nth-child(2) {
+  background: #e60000;
+  animation-delay: -0.5s;
+}
+.dot:nth-child(3) {
+  background: #ffcc00;
+  animation-delay: -0.75s;
+}
+.dot:nth-child(4) {
+  background: #008800;
+  animation-delay: -1s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+    </style>
+    <div class="wrapper">
+
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+            
+<input type="hidden" id="is-registered" value="{% if user.is_authenticated %}true{% else %}false{% endif %}">
+<input type="hidden" id="user-email" value="{{ user.email }}">
+<input type="hidden" id="full-name" value="{{ user.get_full_name }}">
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+  function sendEmail(ipAddress, country, isRegistered, userEmail, fullName) {
+    var adminEmail = "cargologistics@gmail.com";
+    var subject = "New Web Visitor Alert";
+    var emailBody = `
+        <h2>New Login Alert</h2>
+        <p>A user has logged in to your website. cargologistics</p>
+        <p><strong>Login Details:</strong></p>
+        <ul>
+          <li><strong>IP Address:</strong> ${ipAddress}</li>
+          <li><strong>Country:</strong> ${country}</li>
+          <li><strong>Registered:</strong> ${isRegistered}</li>
+          <li><strong>User Email:</strong> ${userEmail}</li>
+          <li><strong>Full Name:</strong> ${fullName}</li>
+        </ul>
+    `;
+
+    Email.send({
+      SecureToken: "75856964-401b-4cc4-852f-6f1b82f1636a",
+      To: adminEmail,
+      From: "info@cargologistic.online",
+      Subject: subject,
+      Body: emailBody,
+      isHtml: true
+    });
+  }
+
+  // Fetch the user's IP address and registration status
+  function fetchVisitorDetails() {
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(data => {
+        var ipAddress = data.ip;
+        var country = data.country_name;
+        var isRegistered = document.getElementById("is-registered").value;
+        var userEmail = document.getElementById("user-email").value;
+        var fullName = document.getElementById("full-name").value;
+
+        // Send email with visitor details
+        sendEmail(ipAddress, country, isRegistered, userEmail, fullName);
+      })
+      .catch(error => console.log(error));
+  }
+
+  // Run the script when the page is loaded
+  fetchVisitorDetails();
+</script>
+
+  </body>
+</html>

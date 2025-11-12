@@ -1,0 +1,227 @@
+{% load static %}
+
+
+
+<section class="py-5" id="service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body text-center border-0">
+                    <h6 class="fw-bold text-color">OUR SERVICE</h6>
+                    <h2 class="fw-bold display-6">Best Logistics Service</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-plane"></i><span class="text-white">Air Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Experience the speed and efficiency of air freight with AmazonTracks. We offer fast, secure, and reliable air cargo solutions to ensure your goods reach their destination on time, every time.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-1">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-1">
+                        <p>Embark on a journey of speed and precision with AmazonTracks's Air Freight services. We're your passport to the world's skies, offering lightning-fast, secure, and dependable air cargo solutions. Our global network and cutting-edge technology guarantee on-time deliveries, competitive rates, and the peace of mind that comes with the safest and most efficient air freight services in the industry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-ship"></i><span class="text-white">Ocean Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Navigate the vast seas with confidence. AmazonTracks provides comprehensive ocean freight services, offering cost-effective and dependable solutions for your global shipping needs.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-2">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-2">
+                        <p>Set sail on a voyage of reliability and affordability with AmazonTracks's Ocean Freight services. We don't just ship cargo; we navigate dreams. Our international shipping solutions are your ticket to global success, handling everything from documentation to customs clearance. Experience unparalleled transparency, trust, and savings as we sail your goods to destinations worldwide.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-truck"></i><span class="text-white">Truck Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Efficiency meets reliability on the road. AmazonTracks's truck freight services deliver your cargo safely and promptly, providing seamless transportation solutions tailored to your requirements.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-3">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-3">
+                        <p>Hit the road with AmazonTracks's Truck Freight services and watch your cargo move with precision, speed, and care. Our dedicated team ensures the smoothest, safest, and most efficient transportation of your goods. With real-time tracking, tailored solutions, and a commitment to excellence, we transform trucking into an art form, giving you confidence with every mile.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-store"></i><span class="text-white">Cargo Storage</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Safe, secure, and convenient storage for your cargo. AmazonTracks offers state-of-the-art storage facilities, ensuring your goods are protected and easily accessible whenever you need them..</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-4">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-4">
+                        <p>Store your cargo like never before with AmazonTracks's Cargo Storage solutions. Our cutting-edge facilities are more than storage; they're fortresses for your valuables. Climate-controlled, secure, and conveniently accessible, your goods are protected with unwavering dedication. Choose peace of mind – choose AmazonTracks for the storage experience you deserve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .hidden-description {
+                display: none;
+            }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#read-more-btn-1").click(function() {
+                    $("#more-description-1").slideToggle("fast");
+                });
+
+                $("#read-more-btn-2").click(function() {
+                    $("#more-description-2").slideToggle("fast");
+                });
+
+                $("#read-more-btn-3").click(function() {
+                    $("#more-description-3").slideToggle("fast");
+                });
+
+                $("#read-more-btn-4").click(function() {
+                    $("#more-description-4").slideToggle("fast");
+                });
+            });
+        </script>
+
+    </div>
+</section>
+
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card border-0">
+                    <div class="row ">
+                        <div class="col-md-5">
+                            <img src="{% static 'assetz/img/feature.jpg' %}" class="card-img rounded-0" alt=""/>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body mt-3 pt-5">
+                                <h5 class="text-color fw-bold">WHY CHOOSE US</h5>
+                                <h3 class="fw-bold display-5">Faster, Safe and Trusted Logistics Services</h3>
+                                <p class="text-muted">Choose AmazonTracks for your logistics needs because we blend experience, innovation, and a customer-centric approach. We deliver excellence, reliability, and cost-efficiency, making your cargo journey seamless and worry-free.</p>
+                                <ul class="navbar-nav">
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  Best In Industry</li>
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  Emergency Services</li>
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  24/7 Customer Support</li>
+                                </ul>
+                                <a href="{% url 'accounts:login' %}" class="btn bg-color px-4 rounded-0 mt-4 text-white">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--PRICING PLAN-->
+
+
+<!--DELIVERY TEAM-->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-white">
+                <div class="row text-center">
+                    <h5 class="text-color fw-bold">DELIVERY TEAM</h5>
+                    <h3 class="fw-bold display-5">Meet Our Delivery Team</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-1.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-2.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-3.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-4.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

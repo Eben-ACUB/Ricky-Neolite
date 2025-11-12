@@ -1,0 +1,412 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Transactions | {{ block.super }}{% endblock title %}
+
+{% block content %}
+{% include "core/messages.html" %}
+{% load static %}
+
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="dash-widget">
+                            <div class="dash-widgetimg">
+                                <span><img src="{% static 'assets/img/icons/dash1.svg' %}" alt="img"></span>
+                            </div>
+                            <div class="dash-widgetcontent">
+                                <h5>$<span class="counters" data-count="{{ user.balance }}">${{ user.balance }}</span></h5>
+                                <h6>Cash Balance</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="dash-widget dash1">
+                            <div class="dash-widgetimg">
+                                <span><img src="{% static 'assets/img/icons/dash2.svg' %}" alt="img"></span>
+                            </div>
+                            <div class="dash-widgetcontent">
+                                <h5>$<span class="counters" data-count="{{ user.bitcoins }}">${{ user.bitcoins }}</span></h5>
+                                <h6>Bitcoin Balance</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="dash-widget dash1">
+                            <div class="dash-widgetimg">
+                                <span><img src="{% static 'assets/img/icons/dash2.svg' %}" alt="img"></span>
+                            </div>
+                            <div class="dash-widgetcontent">
+                                <h5>$<span class="counters" data-count="{{ user.ethereums }}">${{ user.ethereums }}</span></h5>
+                                <h6>Ethereum Balance</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="dash-widget dash1">
+                            <div class="dash-widgetimg">
+                                <span><img src="{% static 'assets/img/icons/dash4.svg' %}" alt="img"></span>
+                            </div>
+                            <div class="dash-widgetcontent">
+                                <h5>$<span class="counters" data-count="{{ user.balance|add:user.bitcoins|add:user.ethereums|floatformat:2 }}">${{ user.balance|add:user.bitcoins|add:user.ethereums|floatformat:2 }}</span></h5>
+                                <h6>Total Balance</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-sm-12 col-12 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Purchase & Sales</h5>
+                                <div class="graph-sets">
+                                    <ul>
+                                        <li>
+                                            <span>Sales</span>
+                                        </li>
+                                        <li>
+                                            <span>Purchase</span>
+                                        </li>
+                                    </ul>
+                                    <div class="dropdown">
+                                        <button class="btn btn-white btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            2023 <img src="{% static 'assets/img/icons/dropdown.svg' %}" alt="img" class="ms-2">
+                                            </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="sales_charts"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <h4 class="card-title">Purchased Products</h4>
+                        <div class="table-responsive dataview">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Payment ID</th>
+                                        <th>Amount</th>
+                                        <th>Product Name</th>
+                                        <th>Status</th>
+                                        <th>Payment Method</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for obj in withdrawals  %}
+                                    <tr>
+                                        <td class="modal-trigger" data-target="#modalDefault{{ forloop.counter }}"><a> <small>View Receipt</small></a></td>
+                                        <td><a href="javascript:void(0);">{{ obj.id }}{{ obj.payment_id }}</a></td>
+                                        <td><a href="javascript:void(0);">${{ obj.amount }}</a></td>
+                                        <td class="productimgname">
+                                            <a class="product-img proof-of-pay-link" >
+                                                <img src="{{ obj.product.image.url }}" alt="product">
+                                            </a>
+                                            <a href="productlist.html">{{ obj.product.name }}</a>
+                                        </td>
+                                        <td>
+                                            {% if obj.completed %}
+                                            <span style="color:darkgreen;" class="status-completed"><i class="fas fa-check-circle"></i> Completed</span>
+                                            {% else %}
+                                            <span style="color:orangered;" class="status-pending"><i class="fas fa-exclamation-circle"></i> Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td data-details="{{ obj.gift_card_type }}">{{ obj.gift_card_type|title }} Gift card</td>
+                                        <td>{{ obj.date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                                {% for obj in withdrawals  %}
+                                <div class="modal fade" tabindex="-1" id="modalDefault{{ forloop.counter }}">
+                                    <div class="modal-dialog modal-dialog-centered receipt-modal" role="document">
+                                        <div class="modal-content modal-with-bg">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header bg-primary text-light">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="receipt-logo">
+                                                        <img src="{% static 'assets/img/logo1.png' %}" alt="Logo" style="max-width: 90px;">
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="modal-title">Transaction Receipt</h5>
+                                                        <small class="text-light">Processed by Cargo Logistics Digital Services</small>
+                                                    </div>
+                                                </div>
+                                                <!-- Add an ID to the close button for easier selection -->
+                                                <button type="button" class="close text-light" id="customCloseButton{{ forloop.counter }}" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <!-- Add this script to your HTML, preferably just before the closing </body> tag -->
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        // Find the close button by its unique ID
+                                                        var closeButton = $("#customCloseButton{{ forloop.counter }}");
+
+                                                        // Add a click event handler
+                                                        closeButton.click(function() {
+                                                            // You can add custom logic here if needed
+                                                            console.log("Close button clicked");
+                                                            
+                                                            // Dismiss the modal
+                                                            $("#modalDefault{{ forloop.counter }}").modal("hide");
+                                                        });
+                                                    });
+                                                </script>
+                                            </div>
+
+                                            <!-- Modal Body -->
+                    <!-- Modal Body -->
+                    <!-- Modal Body -->
+                                        <div class="modal-body">
+                                            <div class="invoice-receipt">
+                                                <div class="invoice-header">
+                                                    <h2>Invoice Receipt</h2>
+                                                </div>
+                                                <div class="invoice-details">
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Sender:</span>
+                                                        <span class="item-value sender-name">{{ user.username }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Receiver:</span>
+                                                        <span class="item-value receiver-name">{{ obj.full_name }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Amount Debited:</span>
+                                                        <span class="item-value amount-debited">- ${{ obj.amount }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Status:</span>
+                                                        <span class="item-value amount-debited">-                                             {% if obj.completed %}
+                                            <span style="color:darkgreen;" class="status-completed"><i class="fas fa-check-circle"></i> Completed</span>
+                                            {% else %}
+                                            <span style="color:red;" class="status-pending"><i class="fas fa-exclamation-circle"></i> Pending</span>
+                                            {% endif %}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Transaction Reference:</span>
+                                                        <span class="item-value transaction-reference">RBC/{{ obj.id }}{{ obj.payment_id }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Date:</span>
+                                                        <span class="item-value transaction-date">{{ obj.date }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Delivery Address:</span>
+                                                        <span class="item-value delivery-address">{{ obj.country }} - {{ obj.street_address }} - {{ obj.apartment_address }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Contact No:</span>
+                                                        <span class="item-value contact-number">{{ obj.phone_number }}</span>
+                                                    </div>
+                                                    <div class="receipt-item">
+                                                        <span class="item-label">Payment Method:</span>
+                                                        <span class="item-value payment">{{ obj.gift_card_type|title }} Gift Card</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal Footer -->
+                                        <div class="modal-footer bg-primary text-white">
+                                            <span class="sub-text">Thank you for choosing Cargo Logistics Digital Services.</span>
+                                        </div>
+
+                                        <style>
+                                            .invoice-receipt {
+                                                background-color: #fff;
+                                                border-radius: 8px;
+                                                padding: 20px;
+                                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                            }
+
+                                            .invoice-header {
+                                                text-align: center;
+                                                margin-bottom: 20px;
+                                            }
+
+                                            .invoice-header h2 {
+                                                color: #333;
+                                                font-size: 24px;
+                                            }
+
+                                            .invoice-details {
+                                                font-family: Arial, sans-serif;
+                                                font-size: 16px;
+                                            }
+
+                                            .receipt-item {
+                                                margin-bottom: 15px;
+                                            }
+
+                                            .item-label {
+                                                font-weight: bold;
+                                                display: inline-block;
+                                                width: 150px;
+                                                color: #555;
+                                            }
+
+                                            .item-value {
+                                                display: inline-block;
+                                                color: #333;
+                                            }
+
+                                            .modal-footer {
+                                                text-align: center;
+                                                padding: 15px;
+                                            }
+
+                                            .sub-text {
+                                                font-size: 14px;
+                                            }
+
+                                            .bg-primary {
+                                                background-color: #007bff !important;
+                                            }
+
+                                            .bg-primary.text-white {
+                                                color: #fff !important;
+                                            }
+
+                                            /* Mobile responsiveness */
+                                            @media (max-width: 767px) {
+                                                .invoice-receipt {
+                                                    padding: 10px;
+                                                }
+                                                .item-label {
+                                                    width: 120px;
+                                                }
+                                                .invoice-header h2 {
+                                                    font-size: 20px;
+                                                }
+                                                .invoice-details {
+                                                    font-size: 14px;
+                                                }
+                                                .receipt-item {
+                                                    margin-bottom: 10px;
+                                                }
+                                                .modal-footer {
+                                                    padding: 10px;
+                                                }
+                                            }
+                                        </style>
+
+
+
+
+
+                                                              
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+
+
+                                                    <style>
+                                                      .modal-with-bg {
+                                                        background-image: url('https://th.bing.com/th/id/OIP.52Ub8lniBT6Z5C2RnoQYFwHaIk?pid=ImgDet&rs=1');
+                                                        background-size: cover;
+                                                    }
+                                                      
+                                                    </style>
+
+                                                    <div class="pagination">
+                                                        <span class="step-links">
+                                                            {% if withdrawals.has_previous %}
+                                                                <a href="?page=1">&laquo; first</a>
+                                                                <a href="?page={{ withdrawals.previous_page_number }}">previous</a>
+                                                            {% endif %}
+
+                                                            <span class="current-page">{{ withdrawals.number }}</span>
+
+                                                            {% if withdrawals.has_next %}
+                                                                <a href="?page={{ withdrawals.next_page_number }}">next</a>
+                                                                <a href="?page={{ withdrawals.paginator.num_pages }}">last &raquo;</a>
+                                                            {% endif %}
+                                                        </span>
+                                                    </div>
+
+                                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $('.modal-trigger').click(function () {
+                                                                // Get the target modal ID from the data-target attribute
+                                                                var targetModalId = $(this).data('target');
+                                                                // Show the modal
+                                                                $(targetModalId).modal('show');
+                                                            });
+                                                        });
+                                                    </script>
+
+                                            </div>
+                                        </div>
+
+
+                </div>
+            </div>
+        </div>
+
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+          <script>
+            const proofOfPayLinks = document.querySelectorAll('.proof-of-pay-link');
+
+            proofOfPayLinks.forEach(link => {
+              link.addEventListener('click', e => {
+                e.preventDefault();
+                const imageUrl = link.querySelector('img').src; // Get the image URL from the clicked link's img tag
+                const paymentDetails = "{{ obj.gift_card_type }}"; // Get payment details from data-details attribute
+
+                Swal.fire({
+                  title: 'Product Photo',
+                  html: `
+                    <div class="payment-receipt">
+                      <img src="${imageUrl}" alt="Proof of payment image" class="payment-receipt-image">
+                      <div class="payment-receipt-details">
+                      </div>
+                    </div>
+                  `,
+                  showCloseButton: true,
+                  showConfirmButton: false,
+                  customClass: {
+                    popup: 'payment-receipt-popup',
+                    content: 'payment-receipt-content',
+                  },
+                });
+              });
+            });
+
+
+          </script>
+
+          <style>
+            @media (max-width: 767px) {
+              table {
+                font-size: 12px;
+              }
+
+              table td {
+                padding: 5px;
+              }
+
+              table th {
+                padding: 5px;
+              }
+            }
+          </style>
+
+{% endblock content %}

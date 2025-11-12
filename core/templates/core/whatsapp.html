@@ -1,0 +1,728 @@
+<!-- WhatsApp Floating Button -->
+<div id="whatsapp-float" class="whatsapp-float">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/768px-WhatsApp.svg.png" alt="WhatsApp" class="wa-icon" />
+  <span class="wa-badge">1</span>
+</div>
+
+<!-- Chat Container -->
+<div id="wa-chatbox" class="wa-chatbox">
+  <!-- Header -->
+  <div class="wa-header">
+    <div class="wa-avatar">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/768px-WhatsApp.svg.png" alt="Support" />
+    </div>
+    <div class="wa-header-info">
+      <div class="wa-header-title">Courier Support</div>
+      <div class="wa-header-status">
+        <span class="wa-status-dot"></span>
+        <span>Online • Replies instantly</span>
+      </div>
+    </div>
+    <button class="wa-chat-close" aria-label="Close chat">×</button>
+  </div>
+
+  <!-- Messages Area -->
+  <div class="wa-body" id="wa-messages">
+    <div class="wa-message bot">
+      <div class="wa-bubble">
+        👋 Hi there! Welcome to Courier Support.<br><br>
+        I'm here to help with tracking, delivery inquiries, and any shipping concerns.
+        <div class="wa-time">Just now</div>
+      </div>
+    </div>
+    <div class="wa-typing" id="wa-typing">
+      <div class="wa-typing-dot"></div>
+      <div class="wa-typing-dot"></div>
+      <div class="wa-typing-dot"></div>
+    </div>
+  </div>
+
+  <!-- Quick Replies -->
+  <div class="wa-quick-replies" id="wa-quick-replies">
+    <button class="wa-quick-btn" data-reply="Track my package">📦 Track Package</button>
+    <button class="wa-quick-btn" data-reply="Delivery status">🚚 Delivery Status</button>
+    <button class="wa-quick-btn" data-reply="Report an issue">⚠️ Report Issue</button>
+    <button class="wa-quick-btn" data-reply="Other inquiry">💬 Other</button>
+  </div>
+
+  <!-- Input Area -->
+  <div class="wa-input-area">
+    <div class="wa-input-wrapper">
+      <textarea class="wa-input" id="wa-input" placeholder="Type your message..." rows="1"></textarea>
+      <button class="wa-send-btn" id="wa-send" disabled aria-label="Send message">➤</button>
+    </div>
+    
+    <!-- Contact Form (Hidden Initially) -->
+    <div class="wa-form-group" id="wa-form">
+      <input type="email" class="wa-form-input" id="wa-email" placeholder="📧 Your Email Address" required />
+      <input type="tel" class="wa-form-input" id="wa-phone" placeholder="📱 Your Phone Number" required />
+      <button class="wa-submit-btn" id="wa-submit">Connect via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Reset for widget only */
+  .whatsapp-float, .wa-chatbox, .whatsapp-float *, .wa-chatbox * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Floating Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: wa-pulse 2s infinite;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  .whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+  }
+
+  .whatsapp-float.active {
+    transform: scale(0.9);
+  }
+
+  .wa-icon {
+    width: 32px;
+    height: 32px;
+    filter: brightness(0) invert(1);
+  }
+
+  .wa-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #FF3B30;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid white;
+    animation: wa-bounce 0.5s;
+  }
+
+  /* Chat Container */
+  .wa-chatbox {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    animation: wa-slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  .wa-chatbox.active {
+    display: flex;
+  }
+
+  /* Header */
+  .wa-header {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  .wa-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+  }
+
+  .wa-avatar img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .wa-header-info {
+    flex: 1;
+  }
+
+  .wa-header-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .wa-header-status {
+    font-size: 12px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .wa-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ADE80;
+    border-radius: 50%;
+    animation: wa-blink 2s infinite;
+  }
+
+  .wa-chat-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .wa-chat-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+  }
+
+  /* Messages Area */
+  .wa-body {
+    flex: 1;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #F0F2F5;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.05) 10px, rgba(255,255,255,.05) 20px);
+  }
+
+  .wa-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .wa-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .wa-body::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+  }
+
+  .wa-message {
+    display: flex;
+    margin-bottom: 12px;
+    animation: wa-messageSlide 0.3s ease;
+  }
+
+  .wa-message.bot {
+    justify-content: flex-start;
+  }
+
+  .wa-message.user {
+    justify-content: flex-end;
+  }
+
+  .wa-bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .wa-message.bot .wa-bubble {
+    background: white;
+    color: #1F2937;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .wa-message.user .wa-bubble {
+    background: #DCF8C6;
+    color: #1F2937;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .wa-time {
+    font-size: 11px;
+    color: #64748B;
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  /* Typing Indicator */
+  .wa-typing {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .wa-typing.active {
+    display: flex;
+  }
+
+  .wa-typing-dot {
+    width: 8px;
+    height: 8px;
+    background: #94A3B8;
+    border-radius: 50%;
+    animation: wa-typingBounce 1.4s infinite;
+  }
+
+  .wa-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .wa-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  /* Quick Replies */
+  .wa-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px 12px;
+    background: #F0F2F5;
+  }
+
+  .wa-quick-replies.hidden {
+    display: none;
+  }
+
+  .wa-quick-btn {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #25D366;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    font-family: inherit;
+  }
+
+  .wa-quick-btn:hover {
+    background: #25D366;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+  }
+
+  /* Input Area */
+  .wa-input-area {
+    padding: 16px 20px;
+    background: white;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .wa-input-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .wa-input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid #E2E8F0;
+    border-radius: 24px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    max-height: 100px;
+    transition: all 0.2s;
+  }
+
+  .wa-input:focus {
+    outline: none;
+    border-color: #25D366;
+  }
+
+  .wa-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .wa-send-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  }
+
+  .wa-send-btn:active {
+    transform: scale(0.95);
+  }
+
+  .wa-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Form Inputs */
+  .wa-form-group {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .wa-form-group.active {
+    display: flex;
+  }
+
+  .wa-form-input {
+    padding: 12px 16px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .wa-form-input:focus {
+    outline: none;
+    border-color: #25D366;
+  }
+
+  .wa-submit-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .wa-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  }
+
+  /* Animations */
+  @keyframes wa-pulse {
+    0%, 100% {
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    }
+    50% {
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.6);
+    }
+  }
+
+  @keyframes wa-slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes wa-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  @keyframes wa-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes wa-messageSlide {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes wa-typingBounce {
+    0%, 60%, 100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 480px) {
+    .wa-chatbox {
+      width: calc(100vw - 32px);
+      bottom: 90px;
+      right: 16px;
+    }
+    
+    .whatsapp-float {
+      bottom: 16px;
+      right: 16px;
+      width: 56px;
+      height: 56px;
+    }
+
+    .wa-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .wa-body {
+      max-height: 300px;
+    }
+
+    .wa-header-status span:last-child {
+      font-size: 11px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const waFloat = document.getElementById('whatsapp-float');
+  const waChat = document.getElementById('wa-chatbox');
+  const waClose = document.querySelector('.wa-chat-close');
+  const waMessages = document.getElementById('wa-messages');
+  const waInput = document.getElementById('wa-input');
+  const waSend = document.getElementById('wa-send');
+  const waTyping = document.getElementById('wa-typing');
+  const waQuickReplies = document.getElementById('wa-quick-replies');
+  const waForm = document.getElementById('wa-form');
+  const waSubmit = document.getElementById('wa-submit');
+  const waBadge = document.querySelector('.wa-badge');
+
+  // State
+  let conversationState = 'initial';
+  let userInquiry = '';
+
+  // Toggle Chat
+  waFloat.addEventListener('click', function() {
+    waChat.classList.toggle('active');
+    waFloat.classList.toggle('active');
+    if (waChat.classList.contains('active')) {
+      waBadge.style.display = 'none';
+      waInput.focus();
+      scrollToBottom();
+    }
+  });
+
+  waClose.addEventListener('click', function() {
+    waChat.classList.remove('active');
+    waFloat.classList.remove('active');
+  });
+
+  // Auto-resize textarea
+  waInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+    waSend.disabled = this.value.trim() === '';
+  });
+
+  // Handle Enter key
+  waInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      waSend.click();
+    }
+  });
+
+  // Quick Reply Buttons
+  document.querySelectorAll('.wa-quick-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const reply = this.getAttribute('data-reply');
+      waInput.value = reply;
+      waSend.disabled = false;
+      waSend.click();
+    });
+  });
+
+  // Send Message
+  waSend.addEventListener('click', function() {
+    const message = waInput.value.trim();
+    if (!message) return;
+
+    addMessage(message, 'user');
+    waInput.value = '';
+    waInput.style.height = 'auto';
+    waSend.disabled = true;
+
+    if (conversationState === 'initial') {
+      userInquiry = message;
+      conversationState = 'inquiry_received';
+      waQuickReplies.classList.add('hidden');
+      
+      showTyping();
+      setTimeout(function() {
+        hideTyping();
+        addMessage("Thank you for reaching out! 😊<br><br>To assist you better and connect you with our support team, I'll need a few details.", 'bot');
+        
+        setTimeout(function() {
+          showTyping();
+          setTimeout(function() {
+            hideTyping();
+            addMessage("Please provide your contact information below, and we'll connect you directly via WhatsApp:", 'bot');
+            conversationState = 'awaiting_details';
+            waForm.classList.add('active');
+            document.getElementById('wa-email').focus();
+          }, 1200);
+        }, 800);
+      }, 1500);
+    }
+  });
+
+  // Submit Form
+  waSubmit.addEventListener('click', function() {
+    const email = document.getElementById('wa-email').value.trim();
+    const phone = document.getElementById('wa-phone').value.trim();
+
+    if (!email || !phone) {
+      alert('Please fill in both email and phone number.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    const currentTime = new Date().toLocaleString();
+    const waMessage = '🎯 *NEW COURIER INQUIRY*\n\n' +
+      '📝 *Inquiry:*\n' + userInquiry + '\n\n' +
+      '👤 *Contact Details:*\n' +
+      '📧 Email: ' + email + '\n' +
+      '📱 Phone: ' + phone + '\n\n' +
+      '🕐 Submitted: ' + currentTime + '\n' +
+      '💻 Source: Website Chat Widget';
+
+    const whatsappNumber = '2349063432673';
+    const waUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(waMessage);
+
+    addMessage("Perfect! Opening WhatsApp now... 🚀<br><br>Our team will respond to you shortly!", 'bot');
+    
+    setTimeout(function() {
+      window.open(waUrl, '_blank');
+      setTimeout(function() {
+        waChat.classList.remove('active');
+        resetChat();
+      }, 1500);
+    }, 1000);
+  });
+
+  // Helper Functions
+  function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'wa-message ' + sender;
+    
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    messageDiv.innerHTML = '<div class="wa-bubble">' + text + '<div class="wa-time">' + time + '</div></div>';
+    
+    waMessages.insertBefore(messageDiv, waTyping);
+    scrollToBottom();
+  }
+
+  function showTyping() {
+    waTyping.classList.add('active');
+    scrollToBottom();
+  }
+
+  function hideTyping() {
+    waTyping.classList.remove('active');
+  }
+
+  function scrollToBottom() {
+    setTimeout(function() {
+      waMessages.scrollTop = waMessages.scrollHeight;
+    }, 100);
+  }
+
+  function resetChat() {
+    conversationState = 'initial';
+    userInquiry = '';
+    waForm.classList.remove('active');
+    waQuickReplies.classList.remove('hidden');
+    
+    const userMessages = waMessages.querySelectorAll('.wa-message.user, .wa-message.bot:not(:first-child)');
+    userMessages.forEach(function(msg) {
+      msg.remove();
+    });
+    
+    document.getElementById('wa-email').value = '';
+    document.getElementById('wa-phone').value = '';
+  }
+
+  // Auto-show badge after 3 seconds
+  setTimeout(function() {
+    if (!waChat.classList.contains('active')) {
+      waBadge.style.display = 'flex';
+    }
+  }, 3000);
+})();
+</script>

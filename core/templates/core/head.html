@@ -1,0 +1,173 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- Force HTTPS -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% if courier %}Track {{ courier.get_service_display }} shipment {{ courier.tracking_id }} from {{ courier.sender_name }} to {{ courier.receiver_name }}. Status: {{ courier.get_status_display }}. Current Location: {{ courier.current_location }}. {% if courier.expected_arrival %}Expected delivery: {{ courier.expected_arrival|date:'M d, Y' }}.{% endif %}{% else %}Track your NeoLite Logistics shipments and deliveries effortlessly with our advanced parcel tracking solutions across multiple carriers.{% endif %}">
+    
+    <meta name="keywords" content="{% if courier %}{{ courier.tracking_id }}, {{ courier.get_service_display }}, {{ courier.current_location }}, shipment tracking, {% endif %}parcel tracking, delivery tracking, NeoLite Logistics, DHL, FedEx, UPS, shipment status, delivery updates, package tracking">
+    
+    <meta name="author" content="NeoLite Logistics Team">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    
+    {% if courier %}
+    <!-- Shipment Specific Meta -->
+    <meta name="shipment:tracking_id" content="{{ courier.tracking_id }}">
+    <meta name="shipment:service" content="{{ courier.get_service_display }}">
+    <meta name="shipment:status" content="{{ courier.get_status_display }}">
+    <meta name="shipment:sender" content="{{ courier.sender_name }}">
+    <meta name="shipment:receiver" content="{{ courier.receiver_name }}">
+    <meta name="shipment:location" content="{{ courier.current_location }}">
+    <meta name="shipment:weight" content="{{ courier.weight_kg }} kg">
+    <meta name="shipment:value" content="${{ courier.price_usd }}">
+    {% if courier.expected_arrival %}
+    <meta name="shipment:eta" content="{{ courier.expected_arrival|date:'Y-m-d' }}">
+    {% endif %}
+    {% endif %}
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="{{ tracking_url }}">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:site_name" content="NeoLite Logistics">
+    <meta property="og:title" content="{% if courier %}📦 {{ courier.get_service_display }} Tracking: {{ courier.tracking_id }}{% else %}NeoLite Logistics - Global Shipment Tracking{% endif %}">
+    
+    <meta property="og:description" content="{% if courier %}🚚 Shipment from {{ courier.sender_name }} to {{ courier.receiver_name }}
+    📍 Current Location: {{ courier.current_location }}
+    📊 Status: {{ courier.get_status_display }}
+    ⚖️ Weight: {{ courier.weight_kg }} kg | 📦 Quantity: {{ courier.quantity }}
+    💰 Value: ${{ courier.price_usd }}{% if courier.expected_arrival %}
+    🎯 Expected Delivery: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your shipments and deliveries effortlessly. Real-time updates from multiple carriers including DHL, FedEx, UPS, and more.{% endif %}">
+        
+    <meta property="og:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <meta property="og:image:secure_url" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <meta property="og:image:alt" content="{% if courier %}Package image for tracking {{ courier.tracking_id }}{% else %}NeoLite Logistics Logo{% endif %}">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ tracking_url }}">
+    <meta property="og:locale" content="en_US">
+    {% if courier %}
+    <meta property="og:updated_time" content="{{ courier.updated_at|date:'c' }}">
+    {% endif %}
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@NeoLiteLogistics">
+    <meta name="twitter:creator" content="@NeoLiteLogistics">
+    <meta name="twitter:title" content="{% if courier %}📦 {{ courier.get_service_display }}: {{ courier.tracking_id }}{% else %}NeoLite Logistics - Shipment Tracking{% endif %}">
+    
+    <meta name="twitter:description" content="{% if courier %}From: {{ courier.sender_name }} → To: {{ courier.receiver_name }}
+Status: {{ courier.get_status_display }} | Location: {{ courier.current_location }}
+Weight: {{ courier.weight_kg }}kg | Value: ${{ courier.price_usd }}{% if courier.expected_arrival %}
+ETA: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your shipments and deliveries effortlessly with real-time updates.{% endif %}">
+    
+    <meta name="twitter:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <meta name="twitter:image:alt" content="{% if courier %}Shipment {{ courier.tracking_id }} package image{% else %}NeoLite Logistics{% endif %}">
+    
+    <!-- Additional Twitter Labels for Rich Cards -->
+    {% if courier %}
+    <meta name="twitter:label1" content="Status">
+    <meta name="twitter:data1" content="{{ courier.get_status_display }}">
+    <meta name="twitter:label2" content="Service">
+    <meta name="twitter:data2" content="{{ courier.get_service_display }}">
+    {% endif %}
+    
+    <!-- Schema.org JSON-LD Structured Data -->
+    {% if courier %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ParcelDelivery",
+      "deliveryAddress": {
+        "@type": "PostalAddress",
+        "name": "{{ courier.receiver_name }}",
+        "streetAddress": "{{ courier.receiver_address|truncatewords:10 }}"
+      },
+      "originAddress": {
+        "@type": "PostalAddress",
+        "name": "{{ courier.sender_name }}",
+        "streetAddress": "{{ courier.sender_address|truncatewords:10 }}"
+      },
+      "partOfOrder": {
+        "@type": "Order",
+        "orderNumber": "{{ courier.tracking_id }}",
+        "orderStatus": "{{ courier.get_status_display }}",
+        "orderDate": "{{ courier.date_sent|date:'c' }}"
+      },
+      "trackingNumber": "{{ courier.tracking_id }}",
+      "trackingUrl": "{{ tracking_url }}",
+      "expectedArrivalFrom": {% if courier.expected_arrival %}"{{ courier.expected_arrival|date:'c' }}"{% else %}null{% endif %},
+      "hasDeliveryMethod": {
+        "@type": "ParcelService",
+        "name": "{{ courier.get_service_display }}"
+      },
+      "itemShipped": {
+        "@type": "Product",
+        "name": "Package",
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "{{ courier.weight_kg }}",
+          "unitCode": "KGM"
+        }
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "{{ courier.get_service_display }}",
+        "url": "{{ request.scheme }}://{{ request.get_host }}"
+      }
+    }
+    </script>
+    {% endif %}
+    
+    <!-- Additional Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "NeoLite Logistics",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "logo": "https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png",
+      "description": "Global shipment and parcel tracking services",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "availableLanguage": "English"
+      }
+    }
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'assetz/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/style.css' %}">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    
+    <title>{% if courier %}📦 {{ courier.tracking_id }} - {{ courier.get_status_display }} | {{ courier.get_service_display }}{% else %}NeoLite Logistics - Global Shipment Tracking{% endif %}</title>
+</head>

@@ -10,6 +10,9 @@ from django.utils.html import format_html
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.contrib import admin
+from django.utils.html import format_html
+from .models import Courier
 
 
 @admin.register(Courier)
@@ -109,7 +112,6 @@ class CourierAdmin(admin.ModelAdmin):
                 "price_usd",
                 "remarks",
             ),
-            "classes": ("collapse",),
         }),
         ("🗺️ Location & Tracking", {
             "description": "Current location and delivery timeline",
@@ -129,7 +131,6 @@ class CourierAdmin(admin.ModelAdmin):
                 "id_document",
                 "id_document_preview",
             ),
-            "classes": ("collapse",),
         }),
         ("🕒 System Timestamps", {
             "description": "Automatic record creation and modification times",
@@ -143,9 +144,14 @@ class CourierAdmin(admin.ModelAdmin):
     
     # Custom Actions
     actions = [
+        "mark_as_processing",
         "mark_as_in_transit",
+        "mark_as_arrived_at_hub",
+        "mark_as_out_for_delivery",
         "mark_as_delivered",
-        "mark_as_pending",
+        "mark_as_delayed",
+        "mark_as_on_hold",
+        "mark_as_returned",
         "duplicate_shipments",
         "clear_expected_arrival",
     ]
@@ -164,16 +170,25 @@ class CourierAdmin(admin.ModelAdmin):
     @admin.display(description="Service", ordering="service")
     def service_badge(self, obj):
         """Display service type with colored badge."""
-        colors = {
-            "standard": "#6c757d",
-            "express": "#007bff",
-            "overnight": "#dc3545",
+        service_colors = {
+            "NeoLite-Logistics": "#667eea",
+            "Comone Express": "#f093fb",
+            "Direct Freight Express": "#4facfe",
+            "Dex-i Express": "#43e97b",
+            "UPS Express": "#351c00",
+            "ZeptoExpress": "#fa709a",
+            "Pgeon Delivery": "#30cfd0",
+            "Roadbull": "#a8edea",
+            "LWE": "#feb692",
+            "SPC": "#c471f5",
+            "DHL Ecommerce": "#ffcc00",
         }
+        color = service_colors.get(obj.service, "#6c757d")
         return format_html(
-            '<span style="background: {}; color: white; padding: 4px 12px; '
-            'border-radius: 12px; font-size: 11px; font-weight: bold; '
-            'text-transform: uppercase;">{}</span>',
-            colors.get(obj.service, "#6c757d"),
+            '<span style="background: {}; color: white; padding: 4px 10px; '
+            'border-radius: 12px; font-size: 10px; font-weight: bold; '
+            'text-transform: uppercase; white-space: nowrap;">{}</span>',
+            color,
             obj.get_service_display()
         )
     
@@ -181,9 +196,14 @@ class CourierAdmin(admin.ModelAdmin):
     def status_badge(self, obj):
         """Display status with colored badge and icon."""
         status_config = {
-            "pending": ("#ffc107", "⏳"),
+            "processing": ("#ffc107", "⚙️"),
             "in_transit": ("#17a2b8", "🚚"),
+            "arrived_at_hub": ("#6f42c1", "🏢"),
+            "out_for_delivery": ("#fd7e14", "🚛"),
             "delivered": ("#28a745", "✓"),
+            "delayed": ("#dc3545", "⚠️"),
+            "on_hold": ("#6c757d", "⏸️"),
+            "returned": ("#e83e8c", "↩️"),
         }
         color, icon = status_config.get(obj.status, ("#6c757d", "●"))
         return format_html(
@@ -198,7 +218,7 @@ class CourierAdmin(admin.ModelAdmin):
     @admin.display(description="Location")
     def current_location_short(self, obj):
         """Display current location with truncation."""
-        location = obj.current_location
+        location = obj.current_location or "Unknown"
         if len(location) > 30:
             return format_html(
                 '<span title="{}">{}</span>',
@@ -212,7 +232,7 @@ class CourierAdmin(admin.ModelAdmin):
         """Display price with currency symbol."""
         return format_html(
             '<strong style="color: #28a745;">${}</strong>',
-            obj.price_usd
+            f'{obj.price_usd:,.2f}'
         )
     
     @admin.display(description="Sender → Receiver")
@@ -275,7 +295,7 @@ class CourierAdmin(admin.ModelAdmin):
             obj.receiver_name,
             obj.weight_kg,
             obj.quantity,
-            obj.price_usd,
+            f'{obj.price_usd:,.2f}',
             obj.get_status_display()
         )
     
@@ -314,35 +334,53 @@ class CourierAdmin(admin.ModelAdmin):
     
     # ============= Custom Actions =============
     
-    @admin.action(description="✓ Mark selected as In Transit")
+    @admin.action(description="⚙️ Mark selected as Processing")
+    def mark_as_processing(self, request, queryset):
+        """Mark selected shipments as processing."""
+        updated = queryset.update(status="processing")
+        self.message_user(request, f"{updated} shipment(s) marked as Processing.", level="success")
+    
+    @admin.action(description="🚚 Mark selected as In Transit")
     def mark_as_in_transit(self, request, queryset):
         """Mark selected shipments as in transit."""
         updated = queryset.update(status="in_transit")
-        self.message_user(
-            request,
-            f"{updated} shipment(s) marked as In Transit.",
-            level="success"
-        )
+        self.message_user(request, f"{updated} shipment(s) marked as In Transit.", level="success")
+    
+    @admin.action(description="🏢 Mark selected as Arrived at Hub")
+    def mark_as_arrived_at_hub(self, request, queryset):
+        """Mark selected shipments as arrived at hub."""
+        updated = queryset.update(status="arrived_at_hub")
+        self.message_user(request, f"{updated} shipment(s) marked as Arrived at Hub.", level="success")
+    
+    @admin.action(description="🚛 Mark selected as Out for Delivery")
+    def mark_as_out_for_delivery(self, request, queryset):
+        """Mark selected shipments as out for delivery."""
+        updated = queryset.update(status="out_for_delivery")
+        self.message_user(request, f"{updated} shipment(s) marked as Out for Delivery.", level="success")
     
     @admin.action(description="✓ Mark selected as Delivered")
     def mark_as_delivered(self, request, queryset):
         """Mark selected shipments as delivered."""
         updated = queryset.update(status="delivered")
-        self.message_user(
-            request,
-            f"{updated} shipment(s) marked as Delivered.",
-            level="success"
-        )
+        self.message_user(request, f"{updated} shipment(s) marked as Delivered.", level="success")
     
-    @admin.action(description="⏳ Mark selected as Pending")
-    def mark_as_pending(self, request, queryset):
-        """Mark selected shipments as pending."""
-        updated = queryset.update(status="pending")
-        self.message_user(
-            request,
-            f"{updated} shipment(s) marked as Pending.",
-            level="warning"
-        )
+    @admin.action(description="⚠️ Mark selected as Delayed")
+    def mark_as_delayed(self, request, queryset):
+        """Mark selected shipments as delayed."""
+        updated = queryset.update(status="delayed")
+        self.message_user(request, f"{updated} shipment(s) marked as Delayed.", level="warning")
+    
+    @admin.action(description="⏸️ Mark selected as On Hold")
+    def mark_as_on_hold(self, request, queryset):
+        """Mark selected shipments as on hold."""
+        updated = queryset.update(status="on_hold")
+        self.message_user(request, f"{updated} shipment(s) marked as On Hold.", level="warning")
+    
+    @admin.action(description="↩️ Mark selected as Returned")
+    def mark_as_returned(self, request, queryset):
+        """Mark selected shipments as returned to sender."""
+        updated = queryset.update(status="returned")
+        self.message_user(request, f"{updated} shipment(s) marked as Returned.", level="warning")
     
     @admin.action(description="📋 Duplicate selected shipments")
     def duplicate_shipments(self, request, queryset):
@@ -352,7 +390,7 @@ class CourierAdmin(admin.ModelAdmin):
         for shipment in queryset:
             shipment.pk = None
             shipment.tracking_id = str(uuid.uuid4())[:12].upper()
-            shipment.status = "pending"
+            shipment.status = "processing"
             shipment.save()
             count += 1
         
@@ -398,8 +436,8 @@ class CourierAdmin(admin.ModelAdmin):
         # Add comprehensive help text to fields
         help_texts = {
             "tracking_id": "🔖 Unique tracking identifier. Auto-generated if left blank. Can be customized.",
-            "service": "🚚 Choose the delivery speed: Standard (3-7 days), Express (1-2 days), or Overnight (next day)",
-            "status": "📊 Current shipment status: Pending → In Transit → Delivered",
+            "service": "🚚 Choose the courier service handling this shipment",
+            "status": "📊 Current shipment status: Processing → In Transit → Delivered",
             "sender_name": "👤 Full name of the person or company sending the package",
             "sender_contact": "📞 Phone number or email of the sender",
             "sender_address": "📍 Complete pickup address including street, city, state, and postal code",
@@ -413,7 +451,7 @@ class CourierAdmin(admin.ModelAdmin):
             "current_location": "📍 Current location of the package (e.g., 'Chicago Distribution Center' or 'Out for delivery')",
             "date_sent": "📅 Date when the package was picked up or shipped",
             "expected_arrival": "🎯 Estimated delivery date (leave blank if unknown or to be determined)",
-            "map_location": "🗺️ Paste Google Maps embed URL or iframe code to show current location",
+            "map_location": "🗺️ Paste Google Maps embed iframe code to show current location",
             "package_image": "📷 Photo of the package for identification and verification",
             "id_document": "🪪 ID document of sender or receiver for security verification",
         }
@@ -450,7 +488,7 @@ class CourierAdmin(admin.ModelAdmin):
         if "map_location" in form.base_fields:
             form.base_fields["map_location"].widget.attrs.update({
                 'rows': 4,
-                'placeholder': 'Paste Google Maps embed code here (e.g., <iframe src="..." ></iframe>)'
+                'placeholder': 'Paste Google Maps embed iframe code here (e.g., <iframe src="..." ></iframe>)'
             })
         
         return form
@@ -473,3 +511,9 @@ class CourierAdmin(admin.ModelAdmin):
                 f"New shipment {obj.tracking_id} created successfully! 🎉",
                 level="success"
             )
+
+
+# Customize admin site headers
+admin.site.site_header = "Courier Tracking System - Admin Portal"
+admin.site.site_title = "Courier Admin"
+admin.site.index_title = "Dashboard"

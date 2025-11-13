@@ -1,5 +1,3 @@
-
-
 <!-- WhatsApp Floating Button -->
 <div id="whatsapp-float" class="whatsapp-float">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/768px-WhatsApp.svg.png" alt="WhatsApp" class="wa-icon" />
@@ -33,7 +31,7 @@
     </div>
     <div class="wa-message bot">
       <div class="wa-bubble">
-        <div class="wa-bubble-content"><br><br>
+        <div class="wa-bubble-content">
           👋 <strong>Hello! Welcome to Courier Support</strong><br><br>
           How can I assist you today?
         </div>
@@ -378,13 +376,11 @@
   .wa-message {
     display: flex;
     margin-bottom: 10px;
-
     animation: wa-messageSlide 0.3s ease;
   }
 
   .wa-message.bot {
     justify-content: flex-start;
-
   }
 
   .wa-message.user {
@@ -393,7 +389,6 @@
 
   .wa-bubble {
     max-width: 80%;
-
     position: relative;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
   }
@@ -1270,7 +1265,7 @@
 
   // Configuration
   const CONFIG = {
-    phoneNumber: '2349063432673', // ✅ Your WhatsApp number
+    phoneNumber: '2349063432673', // Your WhatsApp number
     badgeDelay: 3000, // Show badge after 3 seconds
     typingDelay: {
       min: 1000,
@@ -1303,38 +1298,6 @@
     messageCount: 1
   };
 
-  // === DEVICE DETECTION & WHATSAPP HANDLER ===
-  function isIOS() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  }
-
-  function isAndroid() {
-    return /Android/.test(navigator.userAgent);
-  }
-
-  function isDesktop() {
-    return !isIOS() && !isAndroid();
-  }
-
-  function openWhatsApp(message) {
-    const encodedMsg = encodeURIComponent(message);
-    const phone = CONFIG.phoneNumber.replace(/\D/g, "");
-    const iosURL = `https://wa.me/${phone}?text=${encodedMsg}`;
-    const androidURL = `intent://send?phone=${phone}&text=${encodedMsg}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
-    const desktopURL = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMsg}`;
-
-    if (isIOS()) {
-      window.open(iosURL, '_blank');
-    } else if (isAndroid()) {
-      window.location.href = androidURL;
-      setTimeout(() => {
-        window.open(iosURL, '_blank');
-      }, 1500);
-    } else {
-      window.open(desktopURL, '_blank');
-    }
-  }
-
   // Initialize
   function init() {
     updateDateTime();
@@ -1342,6 +1305,7 @@
     showBadgeAfterDelay();
   }
 
+  // Update date and time
   function updateDateTime() {
     const now = new Date();
     const today = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -1349,32 +1313,44 @@
     if (dateEl) dateEl.textContent = today;
   }
 
+  // Attach all event listeners
   function attachEventListeners() {
+    // Toggle chat
     elements.float.addEventListener('click', toggleChat);
     elements.close.addEventListener('click', closeChat);
+
+    // Input handling
     elements.input.addEventListener('input', handleInputChange);
     elements.input.addEventListener('keypress', handleKeyPress);
+
+    // Send message
     elements.send.addEventListener('click', handleSendMessage);
 
+    // Quick replies
     document.querySelectorAll('.wa-quick-btn').forEach(btn => {
       btn.addEventListener('click', handleQuickReply);
     });
 
+    // Form handling
     elements.cancel.addEventListener('click', closeForm);
     elements.submit.addEventListener('click', handleFormSubmit);
 
+    // Emoji button (visual feedback)
     elements.emojiBtn.addEventListener('click', () => {
       elements.input.focus();
     });
 
+    // Close chat on outside click (mobile)
     if (window.innerWidth <= 768) {
       document.addEventListener('click', handleOutsideClick);
     }
   }
 
+  // Toggle chat visibility
   function toggleChat() {
     elements.chat.classList.toggle('active');
     elements.float.classList.toggle('active');
+    
     if (elements.chat.classList.contains('active')) {
       elements.badge.classList.remove('show');
       elements.input.focus();
@@ -1382,11 +1358,13 @@
     }
   }
 
+  // Close chat
   function closeChat() {
     elements.chat.classList.remove('active');
     elements.float.classList.remove('active');
   }
 
+  // Handle outside click (mobile)
   function handleOutsideClick(e) {
     if (!elements.chat.contains(e.target) && !elements.float.contains(e.target)) {
       if (elements.chat.classList.contains('active')) {
@@ -1395,14 +1373,22 @@
     }
   }
 
+  // Handle input changes
   function handleInputChange() {
     const value = elements.input.value;
     const length = value.length;
+
+    // Auto-resize textarea
     elements.input.style.height = 'auto';
     elements.input.style.height = elements.input.scrollHeight + 'px';
+
+    // Update send button state
     elements.send.disabled = value.trim() === '';
+
+    // Update character count
     elements.charCount.textContent = `${length}/1000`;
 
+    // Change color when approaching limit
     if (length > 900) {
       elements.charCount.style.color = '#FF3B30';
     } else if (length > 800) {
@@ -1412,6 +1398,7 @@
     }
   }
 
+  // Handle Enter key
   function handleKeyPress(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -1419,6 +1406,7 @@
     }
   }
 
+  // Handle quick reply
   function handleQuickReply(e) {
     const reply = this.getAttribute('data-reply');
     elements.input.value = reply;
@@ -1426,30 +1414,38 @@
     elements.send.click();
   }
 
+  // Send message
   function handleSendMessage() {
     const message = elements.input.value.trim();
     if (!message) return;
 
+    // Add user message
     addMessage(message, 'user');
     elements.input.value = '';
     elements.input.style.height = 'auto';
     elements.send.disabled = true;
     elements.charCount.textContent = '0/1000';
 
+    // Process based on state
     if (state.conversationState === 'initial') {
       state.userInquiry = message;
       state.conversationState = 'inquiry_received';
       elements.quickReplies.classList.add('hidden');
+      
+      // Bot responses with typing indicators
       showTyping();
       setTimeout(() => {
         hideTyping();
         addMessage("Thank you for reaching out! 😊\n\nTo connect you with our support team via WhatsApp, I'll need a few details from you.", 'bot');
+        
         setTimeout(() => {
           showTyping();
           setTimeout(() => {
             hideTyping();
             addMessage("Please provide your contact information to proceed:", 'bot');
             state.conversationState = 'awaiting_details';
+            
+            // Show form overlay
             setTimeout(() => {
               elements.formOverlay.classList.add('active');
               document.getElementById('wa-name').focus();
@@ -1460,6 +1456,7 @@
     }
   }
 
+  // Close form
   function closeForm() {
     elements.formOverlay.classList.remove('active');
     state.conversationState = 'initial';
@@ -1467,12 +1464,13 @@
     elements.quickReplies.classList.remove('hidden');
   }
 
-  // === UPDATED FORM SUBMIT WITH DEVICE-SAFE WHATSAPP OPENING ===
+  // Handle form submission
   function handleFormSubmit() {
     const name = document.getElementById('wa-name').value.trim();
     const email = document.getElementById('wa-email').value.trim();
     const phone = document.getElementById('wa-phone').value.trim();
 
+    // Validation
     if (!name || !email || !phone) {
       showAlert('Please fill in all fields.');
       return;
@@ -1490,8 +1488,10 @@
       return;
     }
 
+    // Close form
     elements.formOverlay.classList.remove('active');
 
+    // Construct WhatsApp message
     const currentTime = new Date().toLocaleString('en-US', {
       dateStyle: 'medium',
       timeStyle: 'short'
@@ -1506,10 +1506,14 @@
       `🕐 Submitted: ${currentTime}\n` +
       `💻 Source: Website Chat Widget`;
 
-    addMessage("Perfect! Opening WhatsApp now... 🚀\n\nOur team will respond to you shortly!", 'bot');
+    const waUrl = `https://wa.me/${CONFIG.phoneNumber}?text=${encodeURIComponent(waMessage)}`;
 
+    // Show success message
+    addMessage("Perfect! Opening WhatsApp now... 🚀\n\nOur team will respond to you shortly!", 'bot');
+    
+    // Open WhatsApp and reset
     setTimeout(() => {
-      openWhatsApp(waMessage); // ✅ opens WhatsApp properly on all devices
+      window.open(waUrl, '_blank');
       setTimeout(() => {
         closeChat();
         resetChat();
@@ -1517,49 +1521,70 @@
     }, 1000);
   }
 
+  // Add message to chat
   function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `wa-message ${sender}`;
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    const time = new Date().toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+    
     const bubbleContent = text.replace(/\n/g, '<br>');
+    
     messageDiv.innerHTML = `
       <div class="wa-bubble">
         <div class="wa-bubble-content">${bubbleContent}</div>
-        <div class="wa-message-meta"><span class="wa-time">${time}</span></div>
-      </div>`;
+        <div class="wa-message-meta">
+          <span class="wa-time">${time}</span>
+        </div>
+      </div>
+    `;
+    
     elements.messages.insertBefore(messageDiv, elements.typing);
     state.messageCount++;
     scrollToBottom();
   }
 
+  // Show typing indicator
   function showTyping() {
     elements.typing.classList.add('active');
     scrollToBottom();
   }
 
+  // Hide typing indicator
   function hideTyping() {
     elements.typing.classList.remove('active');
   }
 
+  // Scroll to bottom
   function scrollToBottom() {
     setTimeout(() => {
       elements.messages.scrollTop = elements.messages.scrollHeight;
     }, 100);
   }
 
+  // Reset chat
   function resetChat() {
     state.conversationState = 'initial';
     state.userInquiry = '';
     state.messageCount = 1;
+    
     elements.formOverlay.classList.remove('active');
     elements.quickReplies.classList.remove('hidden');
+    
+    // Remove all messages except first bot message
     const userMessages = elements.messages.querySelectorAll('.wa-message.user, .wa-message.bot:not(:first-of-type)');
     userMessages.forEach(msg => msg.remove());
+    
+    // Clear form
     document.getElementById('wa-name').value = '';
     document.getElementById('wa-email').value = '';
     document.getElementById('wa-phone').value = '';
   }
 
+  // Show badge after delay
   function showBadgeAfterDelay() {
     setTimeout(() => {
       if (!elements.chat.classList.contains('active')) {
@@ -1568,22 +1593,34 @@
     }, CONFIG.badgeDelay);
   }
 
+  // Get random typing delay
   function getRandomDelay() {
     return Math.random() * (CONFIG.typingDelay.max - CONFIG.typingDelay.min) + CONFIG.typingDelay.min;
   }
 
+  // Show alert (mobile-friendly)
   function showAlert(message) {
-    alert(message);
+    if (window.innerWidth <= 480) {
+      // Use native alert for mobile
+      alert(message);
+    } else {
+      // Could implement custom alert for desktop
+      alert(message);
+    }
   }
 
+  // Handle window resize
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      if (elements.chat.classList.contains('active')) scrollToBottom();
+      if (elements.chat.classList.contains('active')) {
+        scrollToBottom();
+      }
     }, 250);
   });
 
+  // Initialize on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

@@ -4,60 +4,7 @@
 <html lang="en">
 
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <!-- Force HTTPS -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    
-    <!-- Cache Control -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="{% if courier %}Track shipment {{ courier.tracking_id }} - Current Location: {{ courier.current_location }}{% else %}Track your NeoLite Logistics shipments and deliveries effortlessly with our advanced parcel tracking solutions.{% endif %}">
-    <meta name="keywords" content=" shipment, parcel tracking, delivery tracking, DHL, FedEx, shipment status, delivery updates">
-    <meta name="author" content="NeoLite Logistics Team">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    
-    <!-- Canonical Link -->
-    <link rel="canonical" href="{{ tracking_url }}">
-    
-    <!-- Open Graph / WhatsApp -->
-    <meta property="og:site_name" content="NeoLite Logistics">
-    <meta property="og:title" content="{% if courier %}Tracking: {{ courier.tracking_id }} - NeoLite Logistics{% else %}NeoLite Logistics - Shipment and Delivery Tracking{% endif %}">
-    <meta property="og:description" content="{% if courier %}Tracking shipment for {{ courier.name }} - Current Location: {{ courier.current_location }}{% else %}Track your shipments and deliveries effortlessly. Real-time updates from DHL, FedEx, and more.{% endif %}">
-    <meta property="og:image" content="{% if courier %}{{ absolute_image_url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <meta property="og:image:secure_url" content="{% if courier %}{{ absolute_image_url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="300">
-    <meta property="og:image:height" content="300">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ tracking_url }}">
-    <meta property="og:updated_time" content="{{ updated_time }}">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% if courier %}Tracking: {{ courier.tracking_id }}{% else %}NeoLite Logistics - Shipment and Delivery Tracking{% endif %}">
-    <meta name="twitter:description" content="{% if courier %}Tracking shipment for {{ courier.name }} - Current Location: {{ courier.current_location }}{% else %}Track your shipments and deliveries effortlessly. Real-time updates from DHL, FedEx, and more.{% endif %}">
-    <meta name="twitter:image" content="{% if courier %}{{ absolute_image_url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <meta name="twitter:site" content="@AmazonDelivery">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="{% static 'assetz/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'assetz/css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'assetz/css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assetz/css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assetz/css/style.css' %}">
-    
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% if courier %}{{ absolute_image_url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    
-    <title>{% if courier %}Tracking: {{ courier.tracking_id }} - {% endif %}NEOLITE-LOGISTICS</title>
-</head>
+{% include 'core/head.html' %}
 
 
 

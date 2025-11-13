@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neolite Logistics - Fast, Reliable Delivery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .road {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: #2d3748;
+            border-top: 4px solid #fbbf24;
+        }
+
+        .road::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #fff 0px,
+                #fff 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            animation: roadMove 2s linear infinite;
+        }
+
+        @keyframes roadMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-80px); }
+        }
+
+        .car {
+            position: absolute;
+            bottom: 80px;
+            left: -300px;
+            width: 200px;
+            height: 100px;
+            animation: driveCar 8s ease-in-out forwards;
+        }
+
+        @keyframes driveCar {
+            0% {
+                left: -300px;
+                transform: translateY(0);
+            }
+            70% {
+                left: 50%;
+                transform: translateX(-50%) translateY(0);
+            }
+            85% {
+                left: 60%;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            100% {
+                left: 120%;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .car-body {
+            position: relative;
+            width: 180px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 10px 50px 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .car-top {
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            width: 100px;
+            height: 35px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .window {
+            position: absolute;
+            width: 35px;
+            height: 25px;
+            background: rgba(255,255,255,0.3);
+            top: 3px;
+        }
+
+        .window.front {
+            left: 5px;
+            border-radius: 5px 0 0 0;
+        }
+
+        .window.back {
+            right: 5px;
+            width: 30px;
+            border-radius: 0 5px 0 0;
+        }
+
+        .wheel {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: #1f2937;
+            border-radius: 50%;
+            bottom: -10px;
+            border: 4px solid #4b5563;
+            animation: wheelRotate 0.5s linear infinite;
+        }
+
+        @keyframes wheelRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .wheel.front {
+            right: 20px;
+        }
+
+        .wheel.back {
+            left: 20px;
+        }
+
+        .wheel::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .person {
+            position: absolute;
+            width: 60px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        .person-1 { bottom: 220px; left: 10%; animation-delay: 0s; }
+        .person-2 { bottom: 220px; right: 15%; animation-delay: 0.5s; }
+        .person-3 { bottom: 220px; left: 30%; animation-delay: 1s; }
+
+        .face {
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 10px;
+            animation: facePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes facePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .eyes {
+            position: absolute;
+            top: 18px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .eye {
+            width: 8px;
+            height: 8px;
+            background: #1f2937;
+            border-radius: 50%;
+            animation: blink 4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 96%, 100% { transform: scaleY(1); }
+            98% { transform: scaleY(0.1); }
+        }
+
+        .mouth {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 10px;
+            border: 2px solid #1f2937;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .body {
+            width: 40px;
+            height: 60px;
+            background: #3b82f6;
+            margin: 0 auto;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .arm {
+            position: absolute;
+            width: 8px;
+            height: 35px;
+            background: #fbbf24;
+            border-radius: 5px;
+            top: 5px;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        .arm.left { left: -5px; transform-origin: top; }
+        .arm.right { right: -5px; transform-origin: top; }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 3px 3px 10px rgba(0,0,0,0.3); }
+            50% { text-shadow: 0 0 30px rgba(255,255,255,0.8), 3px 3px 10px rgba(0,0,0,0.3); }
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            background: #fbbf24;
+            color: #1f2937;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+            transition: all 0.3s ease;
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(251, 191, 36, 0.6);
+        }
+
+        .features {
+            position: absolute;
+            bottom: 250px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 50px;
+            z-index: 5;
+        }
+
+        .feature {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            animation: featureFade 1s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        .feature:nth-child(1) { animation-delay: 0.5s; }
+        .feature:nth-child(2) { animation-delay: 1s; }
+        .feature:nth-child(3) { animation-delay: 1.5s; }
+
+        @keyframes featureFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .clouds {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.3);
+            border-radius: 100px;
+            animation: cloudMove 30s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255,255,255,0.3);
+            border-radius: 100px;
+        }
+
+        .cloud-1 {
+            width: 100px;
+            height: 40px;
+            top: 15%;
+            left: -100px;
+        }
+
+        .cloud-1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud-1::after {
+            width: 60px;
+            height: 35px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud-2 {
+            width: 120px;
+            height: 45px;
+            top: 25%;
+            left: -150px;
+            animation-delay: 5s;
+            animation-duration: 35s;
+        }
+
+        .cloud-2::before {
+            width: 55px;
+            height: 55px;
+            top: -28px;
+            left: 15px;
+        }
+
+        .cloud-2::after {
+            width: 65px;
+            height: 40px;
+            top: -18px;
+            right: 15px;
+        }
+
+        @keyframes cloudMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+        </div>
+
+        <div class="content">
+            <h1>NEOLITE</h1>
+            <p class="tagline">Delivering Tomorrow, Today</p>
+            <button class="cta-button" onclick="alert('Welcome to Neolite Logistics! Your journey begins here.')">Get Started</button>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Lightning Fast</h3>
+                <p>Same-day delivery</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🌍</div>
+                <h3>Global Reach</h3>
+                <p>Worldwide coverage</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📦</div>
+                <h3>Secure Handling</h3>
+                <p>100% safe delivery</p>
+            </div>
+        </div>
+
+        <div class="person person-1">
+            <div class="face">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            <div class="body">
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+            </div>
+        </div>
+
+        <div class="person person-2">
+            <div class="face">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            <div class="body">
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+            </div>
+        </div>
+
+        <div class="person person-3">
+            <div class="face">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+            <div class="body">
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+            </div>
+        </div>
+
+        <div class="road"></div>
+
+        <div class="car">
+            <div class="car-top">
+                <div class="window front"></div>
+                <div class="window back"></div>
+            </div>
+            <div class="car-body">
+                <div class="wheel front"></div>
+                <div class="wheel back"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -11,6 +11,23 @@ from django.utils import timezone
 
 from django.utils.safestring import mark_safe
 
+
+class NewsletterSubscriber(models.Model):
+    """Model for newsletter email subscriptions."""
+    
+    email = models.EmailField(unique=True, db_index=True)
+    subscribed_at = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=True)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    
+    class Meta:
+        ordering = ['-subscribed_at']
+        verbose_name = "Newsletter Subscriber"
+        verbose_name_plural = "Newsletter Subscribers"
+    
+    def __str__(self):
+        return self.email
+
 class Courier(models.Model):
     """A full-featured shipment model with DHL-style tracking."""
 

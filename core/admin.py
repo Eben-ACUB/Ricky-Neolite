@@ -12,7 +12,71 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Courier
+from .models import *
+
+
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email_display', 'status_badge', 'subscribed_at', 'ip_address')
+    list_filter = ('is_active', 'subscribed_at')
+    search_fields = ('email', 'ip_address')
+    readonly_fields = ('subscribed_at', 'ip_address')
+    date_hierarchy = 'subscribed_at'
+    list_per_page = 50
+    
+    actions = ['activate_subscribers', 'deactivate_subscribers', 'export_emails']
+    
+    fieldsets = (
+        ('📧 Subscriber Information', {
+            'fields': ('email', 'is_active')
+        }),
+        ('🕒 Metadata', {
+            'fields': ('subscribed_at', 'ip_address'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    @admin.display(description="Email Address", ordering="email")
+    def email_display(self, obj):
+        return format_html(
+            '<strong style="color: #2c3e50; font-family: monospace;">{}</strong>',
+            obj.email
+        )
+    
+    @admin.display(description="Status", ordering="is_active")
+    def status_badge(self, obj):
+        if obj.is_active:
+            return format_html(
+                '<span style="background: #28a745; color: white; padding: 5px 15px; '
+                'border-radius: 15px; font-size: 11px; font-weight: bold;">✓ ACTIVE</span>'
+            )
+        return format_html(
+            '<span style="background: #dc3545; color: white; padding: 5px 15px; '
+            'border-radius: 15px; font-size: 11px; font-weight: bold;">✗ INACTIVE</span>'
+        )
+    
+    @admin.action(description="✓ Activate selected subscribers")
+    def activate_subscribers(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"{updated} subscriber(s) activated successfully.", level="success")
+    
+    @admin.action(description="✗ Deactivate selected subscribers")
+    def deactivate_subscribers(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f"{updated} subscriber(s) deactivated.", level="warning")
+    
+    @admin.action(description="📥 Export active email addresses")
+    def export_emails(self, request, queryset):
+        active_emails = [sub.email for sub in queryset if sub.is_active]
+        emails_text = "\n".join(active_emails)
+        self.message_user(
+            request, 
+            f"Total Active Emails: {len(active_emails)}\n\n{emails_text}", 
+            level="success"
+        )
+
+
 
 
 @admin.register(Courier)

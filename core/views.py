@@ -82,7 +82,84 @@ def search_courier(request):
     return render(request, 'core/index.html', context)
 
 
+# ============================================
+# views.py
+# ============================================
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from .models import NewsletterSubscriber
 
+
+def get_client_ip(request):
+    """Extract client IP address from request."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+@require_http_methods(["POST"])
+def subscribe_newsletter(request):
+    """Handle newsletter subscription."""
+    try:
+        email = request.POST.get('email', '').strip().lower()
+        
+        # Validate email presence
+        if not email:
+            return JsonResponse({
+                'success': False,
+                'message': 'Please enter your email address.'
+            }, status=400)
+        
+        # Validate email format
+        try:
+            validate_email(email)
+        except ValidationError:
+            return JsonResponse({
+                'success': False,
+                'message': 'Please enter a valid email address.'
+            }, status=400)
+        
+        # Check if already subscribed
+        existing = NewsletterSubscriber.objects.filter(email=email).first()
+        
+        if existing:
+            if existing.is_active:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'This email is already subscribed to our newsletter!'
+                }, status=400)
+            else:
+                # Reactivate inactive subscriber
+                existing.is_active = True
+                existing.save()
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Welcome back! Your subscription has been reactivated.'
+                })
+        
+        # Create new subscriber
+        ip_address = get_client_ip(request)
+        NewsletterSubscriber.objects.create(
+            email=email,
+            ip_address=ip_address
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Thank you for subscribing! Check your inbox for exclusive updates.'
+        })
+    
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'Oops! Something went wrong. Please try again later.'
+        }, status=500)
 
 
 

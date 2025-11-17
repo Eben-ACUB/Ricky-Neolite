@@ -50,8 +50,8 @@
     💰 Value: ${{ courier.price_usd }}{% if courier.expected_arrival %}
     🎯 Expected Delivery: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your shipments and deliveries effortlessly. Real-time updates from multiple carriers including DHL, FedEx, UPS, and more.{% endif %}">
         
-    <meta property="og:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <meta property="og:image:secure_url" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <meta property="og:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png{% endif %}">
+    <meta property="og:image:secure_url" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png{% endif %}">
     <meta property="og:image:alt" content="{% if courier %}Package image for tracking {{ courier.tracking_id }}{% else %}NeoLite Logistics Logo{% endif %}">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
@@ -74,7 +74,7 @@ Status: {{ courier.get_status_display }} | Location: {{ courier.current_location
 Weight: {{ courier.weight_kg }}kg | Value: ${{ courier.price_usd }}{% if courier.expected_arrival %}
 ETA: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your shipments and deliveries effortlessly with real-time updates.{% endif %}">
     
-    <meta name="twitter:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
+    <meta name="twitter:image" content="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png{% endif %}">
     <meta name="twitter:image:alt" content="{% if courier %}Shipment {{ courier.tracking_id }} package image{% else %}NeoLite Logistics{% endif %}">
     
     <!-- Additional Twitter Labels for Rich Cards -->
@@ -139,7 +139,7 @@ ETA: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your
       "@type": "Organization",
       "name": "NeoLite Logistics",
       "url": "{{ request.scheme }}://{{ request.get_host }}",
-      "logo": "https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png",
+      "logo": "https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png",
       "description": "Global shipment and parcel tracking services",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -161,9 +161,9 @@ ETA: {{ courier.expected_arrival|date:'M d, Y' }}{% endif %}{% else %}Track your
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <link rel="shortcut icon" type="image/x-icon" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png{% endif %}">
-    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dk91n4ukw/image/upload/v1762950248/NEOLITE-LOGISTICS_zco69p.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png{% endif %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% if courier %}{{ courier.package_image.url }}{% else %}https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png{% endif %}">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dk91n4ukw/image/upload/v1763393415/Delivery_rfpniv.png">
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#667eea">

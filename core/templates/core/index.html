@@ -104,131 +104,40 @@
 </section>
 
 {% include 'core/search.html' %}
-
-<!-- About Us Section with Video Overlay & Abstract Design -->
-<section class="py-5 position-relative overflow-hidden" id="unique-about-section">
-    <!-- Abstract Background Elements -->
-    <div class="abstract-shape-1"></div>
-    <div class="abstract-dot-pattern"></div>
-
-    <div class="container position-relative z-index-1">
-        <div class="row align-items-center">
-            <!-- Image Column -->
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="about-image-wrapper">
-                    <!-- Image -->
-                    <img src="{% static 'assetz/img/about.jpg' %}" class="img-fluid rounded-4 shadow-lg w-100 position-relative z-index-2" alt="About NeoLite Logistics" style="object-fit: cover; min-height: 400px;">
-                    
-                    <!-- Abstract Floating Experience Badge -->
-                    <div class="experience-card glass-effect floating-anim">
-                        <span class="display-4 d-block fw-bold text-gradient mb-0">25+</span>
-                        <span class="small fw-bold text-uppercase text-dark ls-1">Years of<br>Excellence</span>
-                    </div>
-
-                    <!-- Pulsing Play Button Overlay -->
-                    <button id="uniquePlayBtn" class="play-btn-overlay z-index-3">
-                        <div class="play-icon-bg">
-                            <i class="fa-solid fa-play"></i>
-                        </div>
-                        <div class="play-waves"></div>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Text Column -->
-            <div class="col-lg-6 ps-lg-5">
-                <div class="about-content">
-                    <h6 class="text-uppercase fw-bold text-gradient mb-2 ls-2">Who We Are</h6>
-                    <h2 class="fw-bold display-5 mb-4 text-dark">Trusted & Faster <span class="position-relative d-inline-block">Logistics <svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="#007BFF" stroke-width="3" fill="none" /></svg></span> Partner</h2>
-                    <p class="text-muted lead mb-4" style="line-height: 1.8;">
-                        At NeoLite Logistics, we don't just move cargo; we move businesses forward. Integrating abstract thinking with concrete solutions, we ensure your shipments reach their destination seamlessly through our global network.
-                    </p>
-
-                    <!-- Feature Grid -->
-                    <div class="row mb-5">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3">
-                                    <i class="fa-solid fa-satellite-dish text-primary"></i>
-                                </div>
-                                <span class="fw-bold">Real-Time Tracking</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="icon-box me-3">
-                                    <i class="fa-solid fa-globe text-primary"></i>
-                                </div>
-                                <span class="fw-bold">Global Network</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-box me-3">
-                                    <i class="fa-solid fa-headset text-primary"></i>
-                                </div>
-                                <span class="fw-bold">24/7 Support</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="icon-box me-3">
-                                    <i class="fa-solid fa-shield-halved text-primary"></i>
-                                </div>
-                                <span class="fw-bold">Secure Warehousing</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm hover-lift">Read More</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Video Modal (Responsive & Scrollable) -->
-    <div id="uniqueVideoModal" class="unique-modal" role="dialog" aria-modal="true">
-        <div class="unique-modal-backdrop"></div>
-        <div class="unique-modal-scroll-container">
-            <div class="unique-modal-content">
-                <div class="modal-header-transparent">
-                    <span class="unique-close-btn" aria-label="Close Modal">&times;</span>
-                </div>
-                <div class="ratio ratio-16x9 video-wrapper shadow-lg">
-                    <video id="uniqueVideoPlayer" controls playsinline>
-                        <source src="{% static 'logis.mp4' %}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- 
+    COPY AND PASTE THIS ENTIRE BLOCK 
+    It includes the Styles, HTML Structure, and Scripts needed.
+-->
 
 <style>
-    /* --- Layout & Spacing --- */
-    #unique-about-section {
-        background-color: #f9fbfd; /* Very subtle light blue/grey bg */
-        z-index: 1;
-    }
-    .z-index-1 { z-index: 1; }
-    .z-index-2 { z-index: 2; }
-    .z-index-3 { z-index: 3; }
-    .ls-1 { letter-spacing: 1px; }
-    .ls-2 { letter-spacing: 2px; }
+    /* * ==========================================
+     * ISOLATED STYLES FOR ABOUT SECTION
+     * ==========================================
+     * Scoped under #neo-unique-about-wrapper to prevent conflicts.
+     */
 
-    /* --- Abstract Elements --- */
-    /* Blue Blob Shape */
-    #unique-about-section .abstract-shape-1 {
+    #neo-unique-about-wrapper {
+        position: relative;
+        background-color: #f9fbfd; /* Subtle background */
+        overflow: hidden;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* --- Abstract Backgrounds --- */
+    #neo-unique-about-wrapper .neo-abstract-shape {
         position: absolute;
         top: 10%;
         left: -5%;
         width: 300px;
         height: 300px;
-        background: linear-gradient(45deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05));
+        background: linear-gradient(45deg, rgba(0, 123, 255, 0.08), rgba(0, 123, 255, 0.02));
         border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
         z-index: 0;
-        animation: morph 8s ease-in-out infinite;
+        animation: neoMorph 8s ease-in-out infinite;
+        pointer-events: none;
     }
 
-    /* Dot Pattern */
-    #unique-about-section .abstract-dot-pattern {
+    #neo-unique-about-wrapper .neo-dot-pattern {
         position: absolute;
         bottom: 10%;
         right: 0;
@@ -238,10 +147,51 @@
         background-size: 20px 20px;
         opacity: 0.6;
         z-index: 0;
+        pointer-events: none;
     }
 
-    /* Underline SVG */
-    .underline-svg {
+    /* --- Image Wrapper & Experience Badge --- */
+    #neo-unique-about-wrapper .neo-image-wrapper {
+        position: relative;
+        padding: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    #neo-unique-about-wrapper .neo-main-img {
+        border-radius: 1.5rem;
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.175);
+        width: 100%;
+        object-fit: cover;
+        min-height: 400px;
+        transition: filter 0.3s;
+    }
+
+    #neo-unique-about-wrapper .neo-experience-badge {
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 20px 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        z-index: 4;
+        min-width: 180px;
+        text-align: center;
+        animation: neoFloat 4s ease-in-out infinite;
+    }
+
+    /* --- Typography & Gradients --- */
+    #neo-unique-about-wrapper .text-gradient {
+        background: linear-gradient(135deg, #007BFF, #0056b3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    #neo-unique-about-wrapper .neo-underline-svg {
         position: absolute;
         bottom: -5px;
         left: 0;
@@ -250,58 +200,8 @@
         z-index: -1;
     }
 
-    /* --- Image Area --- */
-    #unique-about-section .about-image-wrapper {
-        position: relative;
-        padding: 20px; /* Space for the floating elements */
-    }
-
-    /* Glassmorphism Experience Card */
-    #unique-about-section .experience-card {
-        position: absolute;
-        bottom: 40px;
-        left: 0;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 20px 30px;
-        border-radius: 15px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        z-index: 4;
-        min-width: 180px;
-        text-align: center;
-    }
-
-    /* --- Text Styling --- */
-    .text-gradient {
-        background: linear-gradient(135deg, #007BFF, #0056b3);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .icon-box {
-        width: 45px;
-        height: 45px;
-        background-color: rgba(0, 123, 255, 0.1);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-    }
-    
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .hover-lift:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2) !important;
-    }
-
-    /* --- Play Button & Animation --- */
-    #unique-about-section .play-btn-overlay {
+    /* --- Play Button (Pulsing) --- */
+    #neo-unique-about-wrapper .neo-play-btn {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -309,11 +209,15 @@
         background: none;
         border: none;
         cursor: pointer;
-        padding: 0;
-        outline: none;
+        z-index: 5;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    #unique-about-section .play-icon-bg {
+    #neo-unique-about-wrapper .neo-play-btn:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    #neo-unique-about-wrapper .neo-play-icon {
         width: 80px;
         height: 80px;
         background-color: #fff;
@@ -323,194 +227,372 @@
         justify-content: center;
         font-size: 24px;
         color: #007BFF;
+        box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3);
         position: relative;
         z-index: 2;
-        transition: transform 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    
-    #unique-about-section .play-btn-overlay:hover .play-icon-bg {
-        transform: scale(1.1);
-        color: #0056b3;
     }
 
-    /* Pulse Waves */
-    #unique-about-section .play-waves {
+    #neo-unique-about-wrapper .neo-play-waves {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80px;
-        height: 80px;
-        background: rgba(255, 255, 255, 0.5);
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.6);
         border-radius: 50%;
         z-index: 1;
-        animation: wavePulse 2s infinite;
-    }
-    
-    @keyframes wavePulse {
-        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        animation: neoWavePulse 2s infinite;
     }
 
-    @keyframes morph {
+    /* --- Icon Boxes --- */
+    #neo-unique-about-wrapper .neo-icon-box {
+        width: 45px;
+        height: 45px;
+        background-color: rgba(0, 123, 255, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: #007BFF;
+        transition: all 0.3s ease;
+    }
+
+    #neo-unique-about-wrapper .neo-hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    #neo-unique-about-wrapper .neo-hover-lift:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes neoMorph {
         0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
         67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
         100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
     }
 
-    /* --- MODAL (Responsive & Scrollable) --- */
-    .unique-modal {
+    @keyframes neoWavePulse {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+
+    @keyframes neoFloat {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
+    /* * ==========================================
+     * UPGRADED MODAL SYSTEM (Cinema Mode)
+     * ==========================================
+     */
+    
+    .neo-modal-overlay {
         display: none;
         position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden; /* Main container hides overflow */
-    }
-
-    .unique-modal-backdrop {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(8px);
-    }
-
-    /* The container that actually scrolls */
-    .unique-modal-scroll-container {
-        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        overflow-y: auto; /* Allow vertical scrolling */
-        display: flex;
-        align-items: center; /* Center vertically */
-        justify-content: center; /* Center horizontally */
-        padding: 20px;
-    }
-
-    .unique-modal-content {
-        position: relative;
-        width: 100%;
-        max-width: 900px;
-        margin: auto; /* Centers in flex container */
         z-index: 10000;
-        animation: modalFadeIn 0.3s ease-out;
+        background-color: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
-    /* Close Button Header */
-    .modal-header-transparent {
+    .neo-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* The container that grows/shrinks */
+    .neo-video-container {
+        position: relative;
+        background: #000;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 12px;
+        
+        /* Default "Half Screen" State */
+        width: 80%;
+        max-width: 900px;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+
+    /* "Full Screen" State modifier */
+    .neo-video-container.is-full-mode {
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        border-radius: 0;
+        aspect-ratio: unset;
+    }
+
+    /* Modal Header (Controls) */
+    .neo-modal-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 20px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
         display: flex;
         justify-content: flex-end;
-        margin-bottom: 10px;
+        gap: 15px;
+        z-index: 10;
+        opacity: 0;
+        transition: opacity 0.3s;
     }
 
-    .unique-close-btn {
-        color: #fff;
-        font-size: 40px;
-        font-weight: 300;
+    /* Show header on hover or when paused */
+    .neo-video-container:hover .neo-modal-header {
+        opacity: 1;
+    }
+
+    .neo-control-btn {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        line-height: 1;
-        transition: transform 0.2s;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        transition: all 0.2s;
+        backdrop-filter: blur(4px);
     }
 
-    .unique-close-btn:hover {
-        transform: rotate(90deg);
-        color: #007BFF;
+    .neo-control-btn:hover {
+        background: rgba(255,255,255,0.3);
+        transform: scale(1.1);
     }
 
-    /* Animation */
-    @keyframes modalFadeIn {
-        from {opacity: 0; transform: translateY(20px);}
-        to {opacity: 1; transform: translateY(0);}
+    .neo-video-player {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Ensures video isn't cropped in full mode */
     }
 
-    /* Mobile Responsive Adjustments */
+    /* Mobile specific adjustments */
     @media (max-width: 768px) {
-        .unique-modal-scroll-container {
-            display: block; /* Disable flex centering on small screens to allow natural flow */
-            padding-top: 60px; /* Space for top close button visual */
-        }
-        
-        .unique-modal-content {
-            margin: 0 auto 50px auto;
-        }
-
-        #unique-about-section .experience-card {
-            bottom: -20px; /* Adjust badge position for mobile */
+        #neo-unique-about-wrapper .neo-experience-badge {
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
             width: 80%;
+            animation: none; /* Disable float on mobile for stability */
         }
-        
-        #unique-about-section .about-image-wrapper {
-            margin-bottom: 60px; /* Extra space for the badge */
+        #neo-unique-about-wrapper .neo-image-wrapper {
+            margin-bottom: 60px;
+        }
+        .neo-video-container {
+            width: 95%;
         }
     }
 </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('uniqueVideoModal');
-        const playBtn = document.getElementById('uniquePlayBtn');
-        const closeBtn = document.querySelector('.unique-close-btn');
-        const backdrop = document.querySelector('.unique-modal-backdrop');
-        const videoPlayer = document.getElementById('uniqueVideoPlayer');
-        const scrollContainer = document.querySelector('.unique-modal-scroll-container');
-
-        // Open Modal
-        playBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-
-        // Function to close modal
-        function closeModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = ''; // Restore background scrolling
-            if(videoPlayer) {
-                videoPlayer.pause();
-                // videoPlayer.currentTime = 0; // Optional reset
-            }
-        }
-
-        // Close events
-        if(closeBtn) closeBtn.addEventListener('click', closeModal);
-        if(backdrop) backdrop.addEventListener('click', closeModal);
+<!-- Main Wrapper ID for Isolation -->
+<div id="neo-unique-about-wrapper">
+    <section class="py-5 position-relative">
         
-        // Close when clicking outside the content area (on the scroll container)
-        if(scrollContainer) {
-            scrollContainer.addEventListener('click', function(e) {
-                if (e.target === scrollContainer) {
-                    closeModal();
-                }
-            });
-        }
+        <!-- Abstract Background Elements -->
+        <div class="neo-abstract-shape"></div>
+        <div class="neo-dot-pattern"></div>
 
-        // Close on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape" && modal.style.display === 'block') {
-                closeModal();
-            }
-        });
-    });
-</script>
-
-
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center">
+                
+                <!-- Image Column -->
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="neo-image-wrapper">
+                        <!-- Image -->
+                        <img src="{% static 'assetz/img/about.jpg' %}" 
+                             class="neo-main-img" 
+                             alt="About NeoLite Logistics">
+                        
+                        <!-- Abstract Floating Experience Badge -->
+                        <div class="neo-experience-badge">
+                            <span class="display-4 d-block fw-bold text-gradient mb-0">25+</span>
+                            <span class="small fw-bold text-uppercase text-dark" style="letter-spacing: 1px;">Years of<br>Excellence</span>
                         </div>
+
+                        <!-- Pulsing Play Button Overlay -->
+                        <button id="neoPlayTrigger" class="neo-play-btn" aria-label="Play Video">
+                            <div class="neo-play-icon">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                            <div class="neo-play-waves"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Text Column -->
+                <div class="col-lg-6 ps-lg-5">
+                    <div class="about-content">
+                        <h6 class="text-uppercase fw-bold text-gradient mb-2" style="letter-spacing: 2px;">Who We Are</h6>
+                        <h2 class="fw-bold display-5 mb-4 text-dark">
+                            Trusted & Faster 
+                            <span class="position-relative d-inline-block">
+                                Logistics 
+                                <svg class="neo-underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                    <path d="M0 5 Q 50 10 100 5" stroke="#007BFF" stroke-width="3" fill="none" />
+                                </svg>
+                            </span> 
+                            Partner
+                        </h2>
+                        <p class="text-muted lead mb-4" style="line-height: 1.8;">
+                            At NeoLite Logistics, we don't just move cargo; we move businesses forward. Integrating abstract thinking with concrete solutions, we ensure your shipments reach their destination seamlessly through our global network.
+                        </p>
+
+                        <!-- Feature Grid -->
+                        <div class="row mb-5">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="neo-icon-box me-3">
+                                        <i class="fa-solid fa-satellite-dish"></i>
+                                    </div>
+                                    <span class="fw-bold">Real-Time Tracking</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="neo-icon-box me-3">
+                                        <i class="fa-solid fa-globe"></i>
+                                    </div>
+                                    <span class="fw-bold">Global Network</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="neo-icon-box me-3">
+                                        <i class="fa-solid fa-headset"></i>
+                                    </div>
+                                    <span class="fw-bold">24/7 Support</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="neo-icon-box me-3">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <span class="fw-bold">Secure Warehousing</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm neo-hover-lift">Read More</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+
+        <!-- 
+          UPGRADED VIDEO MODAL 
+          Independent structure
+        -->
+        <div id="neoVideoOverlay" class="neo-modal-overlay">
+            <!-- Video Container (Resizes based on mode) -->
+            <div id="neoVideoContainer" class="neo-video-container">
+                
+                <!-- Controls Header (Overlay) -->
+                <div class="neo-modal-header">
+                    <!-- Toggle Full/Half Screen -->
+                    <button id="neoToggleSizeBtn" class="neo-control-btn" title="Toggle Cinema Mode">
+                        <i class="fa-solid fa-expand" id="neoSizeIcon"></i>
+                    </button>
+                    <!-- Close Button -->
+                    <button id="neoCloseBtn" class="neo-control-btn" title="Close Video">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Video Player -->
+                <video id="neoVideoPlayer" class="neo-video-player" controls playsinline>
+                    <source src="{% static 'logis.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<!-- Functionality Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const overlay = document.getElementById('neoVideoOverlay');
+        const container = document.getElementById('neoVideoContainer');
+        const playTrigger = document.getElementById('neoPlayTrigger');
+        const closeBtn = document.getElementById('neoCloseBtn');
+        const toggleSizeBtn = document.getElementById('neoToggleSizeBtn');
+        const sizeIcon = document.getElementById('neoSizeIcon');
+        const videoPlayer = document.getElementById('neoVideoPlayer');
+
+        // --- Open Modal ---
+        if(playTrigger) {
+            playTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Lock background scroll
+                if(videoPlayer) videoPlayer.play();
+            });
+        }
+
+        // --- Close Modal Function ---
+        function closeNeoModal() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Unlock background scroll
+            if(videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            }
+        }
+
+        if(closeBtn) closeBtn.addEventListener('click', closeNeoModal);
+
+        // Close when clicking outside the container (on the backdrop)
+        if(overlay) {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeNeoModal();
+                }
+            });
+        }
+
+        // Close on Escape Key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && overlay.classList.contains('active')) {
+                closeNeoModal();
+            }
+        });
+
+        // --- Toggle Full/Cinema Mode ---
+        function toggleScreenMode() {
+            container.classList.toggle('is-full-mode');
+            
+            // Update Icon
+            if (container.classList.contains('is-full-mode')) {
+                sizeIcon.classList.remove('fa-expand');
+                sizeIcon.classList.add('fa-compress');
+            } else {
+                sizeIcon.classList.remove('fa-compress');
+                sizeIcon.classList.add('fa-expand');
+            }
+        }
+
+        if(toggleSizeBtn) toggleSizeBtn.addEventListener('click', toggleScreenMode);
+    });
+</script>
 <!--GET A QUOTE-->
 
 <!-- OUR SERVICE -->
@@ -530,7 +612,7 @@
             <div class="col-md-4 ps-5">
                 <h3 class="text-color fw-bold pb-3">Get In Touch</h3>
                 <p class="fw-bold text-white"><i class="fa fa-map-marker-alt me-2"></i> New York, USA</p>
-                <p class="fw-bold text-white"><i class="fa fa-phone-alt me-2"></i>+0160184522</p>
+                <p class="fw-bold text-white"><i class="fa fa-phone-alt me-2"></i>+1(561)257-8055</p>
                 <p class="fw-bold text-white"><i class="fa fa-envelope me-2"></i>support@neolitelogistics.com</p>
                 <div class="border-0 m-0 p-0">
                     <ul class="nav p-0  border-0">

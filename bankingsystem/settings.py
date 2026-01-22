@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'bankingsystem.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 
-DATABASE_URL="postgresql://neondb_owner:npg_dJz3fAGY6Uwh@ep-green-wildflower-adukajmv-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+DATABASE_URL="postgresql://neondb_owner:npg_Igy4qhpLG1Xn@ep-red-wildflower-aby0xem2-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 # Configure the default database using the DATABASE_URL
 DATABASES = {
